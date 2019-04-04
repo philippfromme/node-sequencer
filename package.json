@@ -1,0 +1,32 @@
+{
+  "name": "gitter",
+  "version": "1.0.0",
+  "description": "A Node-Based Sequencer for the Web",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philippfromme/gitter"
+  },
+  "author": {
+    "name": "Philipp Fromme",
+    "url": "https://github.com/philippfromme"
+  },
+  "contributors": [
+    {
+      "name": "Nico Rehwaldt",
+      "url": "https://github.com/nikku"
+    }
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.js",
+  "dependencies": {
+    "diagram-js": "^3.1.3",
+    "file-saver": "^1.3.3",
+    "ids": "^0.2.0",
+    "jsmidgen": "^0.1.5",
+    "lodash-es": "^4.17.4",
+    "min-dom": "^3.1.1",
+    "p5": "^0.5.11",
+    "tiny-svg": "^2.2.1"
+  }
+}
