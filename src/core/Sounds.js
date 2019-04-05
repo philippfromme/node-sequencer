@@ -1,7 +1,4 @@
-const p5 = require('p5');
-
-// extend p5 with sound
-require('p5/lib/addons/p5.sound.js');
+import p5 from 'p5';
 
 class Sounds {
   constructor(eventBus, gitterConfig, loadingOverlay) {

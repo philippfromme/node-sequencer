@@ -1,5 +1,5 @@
-const p5 = require('p5');
-require('p5/lib/addons/p5.sound.js');
+import p5 from 'p5';
+import 'p5/lib/addons/p5.sound.js';
 
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
@@ -115,7 +115,11 @@ class Audio extends CommandInterceptor {
     return this.phrases;
   }
 
-  start() {
+  async start() {
+
+    // resume audio
+    p5.prototype.getAudioContext().resume();
+
     this.mainPart.loop();
     this.mainPart.start();
   }

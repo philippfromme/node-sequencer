@@ -1,6 +1,3 @@
-const p5 = require('p5');
-require('p5/lib/addons/p5.sound.js');
-
 import { getSequenceFromSequences } from '../../util/SequenceUtil';
 
 class RemoveSequenceHandler {
