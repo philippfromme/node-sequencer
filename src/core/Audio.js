@@ -26,8 +26,8 @@ class Audio extends CommandInterceptor {
     this.phrases = {};
 
     this.mainPart = new p5.Part();
-    this.mainPart.loop();
-    this.mainPart.start();
+    // this.mainPart.loop();
+    // this.mainPart.start();
 
     const phrase = new p5.Phrase('loopStart', (time, playbackRate) => {
       eventBus.fire('gitter.audio.loopStart');
@@ -113,6 +113,15 @@ class Audio extends CommandInterceptor {
 
   getAllPhrases() {
     return this.phrases;
+  }
+
+  start() {
+    this.mainPart.loop();
+    this.mainPart.start();
+  }
+
+  stop() {
+    this.mainPart.stop();
   }
 }
 

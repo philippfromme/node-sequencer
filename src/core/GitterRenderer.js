@@ -69,7 +69,7 @@ class CustomRenderer extends BaseRenderer {
       svgAttr(text, {
         transform: 'translate(' + translateX +  ', 12)',
         fill: color,
-        fontSize: '6'
+        fontSize: '6px'
       });
 
       return circle;
