@@ -56,6 +56,12 @@ class GitterUpdater extends CommandInterceptor {
       const { sound } = sounds.getSound(soundId || listener.sound);
       const oldPhrase = mainPart.getPhrase(listener.id);
 
+      if (!oldPhrase) {
+
+        // no sequence to update
+        return;
+      }
+
       const newPhrase = new p5.Phrase(listener.id, (time, playbackRate) => {
         sound.rate(playbackRate);
         sound.play(time);
