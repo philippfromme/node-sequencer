@@ -1,14 +1,14 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-import { isEmitter, isListener } from '../../util/GitterUtil';
+import { isEmitter, isListener } from '../../util/NodeSequencerUtil';
 import { getSequence } from '../../util/SequenceUtil';
 import { getDistance } from '../../util/GeometryUtil';
 
 class Sequences extends CommandInterceptor {
-  constructor(audio, gitterConfig, eventBus) {
+  constructor(audio, nodeSequencerConfig, eventBus) {
     super(eventBus);
 
-    const { maxDistance, offsetDistance } = gitterConfig;
+    const { maxDistance, offsetDistance } = nodeSequencerConfig;
 
     // connection create
     this.postExecute('connection.create', event => {
@@ -44,6 +44,6 @@ class Sequences extends CommandInterceptor {
   }
 }
 
-Sequences.$inject = [ 'audio', 'gitterConfig', 'eventBus' ];
+Sequences.$inject = [ 'audio', 'nodeSequencerConfig', 'eventBus' ];
 
 export default Sequences;

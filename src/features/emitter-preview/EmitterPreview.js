@@ -7,7 +7,7 @@ import {
 
 import { translate } from 'diagram-js/lib/util/SvgTransformUtil';
 
-import { isEmitter, isListener, isRoot } from '../../util/GitterUtil';
+import { isEmitter, isListener, isRoot } from '../../util/NodeSequencerUtil';
 
 const STROKE_COLOR = 'rgba(0, 0, 255, 0.5)'
 
@@ -40,10 +40,10 @@ function createEmitterPreview(cx, cy, timeSignature, maxDistance, offsetDistance
 }
 
 class EmitterPreview {
-  constructor(eventBus, canvas, elementRegistry, gitterConfig) {
-    const { maxDistance, offsetDistance } = gitterConfig;
+  constructor(eventBus, canvas, elementRegistry, nodeSequencerConfig) {
+    const { maxDistance, offsetDistance } = nodeSequencerConfig;
 
-    const emitterPreviewLayer = canvas.getLayer('gitterEmitterPreview', -1000);
+    const emitterPreviewLayer = canvas.getLayer('nodeSequencerEmitterPreview', -1000);
 
     let ignoreSelectionChanged = false;
 
@@ -74,8 +74,8 @@ class EmitterPreview {
     });
 
     eventBus.on([
-      'commandStack.gitter.changeProperties.executed',
-      'commandStack.gitter.changeProperties.reverted',
+      'commandStack.nodeSequencer.changeProperties.executed',
+      'commandStack.nodeSequencer.changeProperties.reverted',
       'commandStack.shape.move.executed',
       'commandStack.shape.move.reverted'
     ], ({ context }) => {
@@ -171,6 +171,6 @@ class EmitterPreview {
   }
 }
 
-EmitterPreview.$inject = [ 'eventBus', 'canvas', 'elementRegistry', 'gitterConfig' ];
+EmitterPreview.$inject = [ 'eventBus', 'canvas', 'elementRegistry', 'nodeSequencerConfig' ];
 
 export default EmitterPreview;

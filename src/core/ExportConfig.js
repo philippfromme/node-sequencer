@@ -1,5 +1,5 @@
 /**
- * Lets modules register for exporting configurations on Gitter#save.
+ * Lets modules register for exporting configurations on NodeSequencer#save.
  */
 class ExportConfig {
   constructor() {

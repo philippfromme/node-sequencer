@@ -5,22 +5,22 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import { isRoot } from '../../util/GitterUtil';
+import { isRoot } from '../../util/NodeSequencerUtil';
 
 class KitSelect {
-  constructor(canvas, eventBus, gitterConfig, gitterModeling) {
+  constructor(canvas, eventBus, nodeSequencerConfig, nodeSequencerModeling) {
     this._canvas = canvas;
     this._eventBus = eventBus;
-    this._gitterConfig = gitterConfig;
-    this._gitterModeling = gitterModeling;
+    this._nodeSequencerConfig = nodeSequencerConfig;
+    this._nodeSequencerModeling = nodeSequencerModeling;
 
     this.presets = {};
 
     this.init();
 
     eventBus.on([
-      'commandStack.gitter.changeProperties.executed',
-      'commandStack.gitter.changeProperties.reverted'
+      'commandStack.nodeSequencer.changeProperties.executed',
+      'commandStack.nodeSequencer.changeProperties.reverted'
     ], ({ context }) => {
       const element = context.element;
 
@@ -43,7 +43,7 @@ class KitSelect {
 
     this._canvas.getContainer().appendChild(container);
 
-    Object.keys(this._gitterConfig.soundKits).forEach((key, index) => {
+    Object.keys(this._nodeSequencerConfig.soundKits).forEach((key, index) => {
       const label = index + 1;
 
       const preset = domify(`<div class="preset pill pill-button">${label}</div>`);
@@ -51,7 +51,7 @@ class KitSelect {
       domEvent.bind(preset, 'click', () => {
         const rootElement = this._canvas.getRootElement();
 
-        this._gitterModeling.changeProperties(rootElement, {
+        this._nodeSequencerModeling.changeProperties(rootElement, {
           soundKit: key
         });
 
@@ -63,7 +63,7 @@ class KitSelect {
       this.presets[ key ] = preset;
     });
 
-    this.update(this._gitterConfig.initialSoundKit);
+    this.update(this._nodeSequencerConfig.initialSoundKit);
   }
 
   update(activeSoundKit) {
@@ -79,6 +79,6 @@ class KitSelect {
   }
 }
 
-KitSelect.$inject = [ 'canvas', 'eventBus', 'gitterConfig', 'gitterModeling' ];
+KitSelect.$inject = [ 'canvas', 'eventBus', 'nodeSequencerConfig', 'nodeSequencerModeling' ];
 
 export default KitSelect;

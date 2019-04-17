@@ -1,6 +1,6 @@
-import GitterOrderingProvider from './GitterOrderingProvider';
+import NodeSequencerOrderingProvider from './NodeSequencerOrderingProvider';
 
 export default {
-  __init__: [ 'gitterOrderingProvider' ],
-  gitterOrderingProvider: [ 'type', GitterOrderingProvider ]
+  __init__: [ 'nodeSequencerOrderingProvider' ],
+  nodeSequencerOrderingProvider: [ 'type', NodeSequencerOrderingProvider ]
 };

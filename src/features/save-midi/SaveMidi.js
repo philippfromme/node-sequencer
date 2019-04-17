@@ -7,7 +7,7 @@ import {
   event as domEvent,
 } from 'min-dom';
 
-import { isRoot } from '../../util/GitterUtil';
+import { isRoot } from '../../util/NodeSequencerUtil';
 import { getSequenceFromSequences } from '../../util/SequenceUtil';
 
 const NOTES = [ 'c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b' ];
@@ -63,7 +63,7 @@ class SaveMidi {
       })).buffer
     ], {
       type: 'application/x-midi'
-    }) , 'gitter.mid' );
+    }) , 'nodeSequencer.mid' );
   }
 }
 

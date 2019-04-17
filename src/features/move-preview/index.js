@@ -1,6 +1,6 @@
-import GitterMovePreview from './GitterMovePreview';
+import NodeSequencerMovePreview from './NodeSequencerMovePreview';
 
 export default {
-  __init__: [ 'gitterMovePreview' ],
-  gitterMovePreview: [ 'type', GitterMovePreview ]
+  __init__: [ 'nodeSequencerMovePreview' ],
+  nodeSequencerMovePreview: [ 'type', NodeSequencerMovePreview ]
 };

@@ -1,12 +1,12 @@
 import p5 from 'p5';
 
 class Sounds {
-  constructor(eventBus, gitterConfig, loadingOverlay) {
+  constructor(eventBus, nodeSequencerConfig, loadingOverlay) {
     this._eventBus = eventBus;
-    this._gitterConfig = gitterConfig;
+    this._nodeSequencerConfig = nodeSequencerConfig;
     this._loadingOverlay = loadingOverlay;
 
-    this.soundKit = gitterConfig.initialSoundKit;
+    this.soundKit = nodeSequencerConfig.initialSoundKit;
 
     this.noneSound = {
       sound: {
@@ -24,11 +24,11 @@ class Sounds {
   loadSounds() {
     this._loadingOverlay.addLoadingComponent(this);
 
-    this._eventBus.fire('gitter.sounds.loading');
+    this._eventBus.fire('nodeSequencer.sounds.loading');
 
     let numberLoading = 0;
 
-    Object.entries(this._gitterConfig.soundKits).forEach(entry => {
+    Object.entries(this._nodeSequencerConfig.soundKits).forEach(entry => {
       const soundKit = entry[0],
             sounds = entry[1].sounds;
 
@@ -43,7 +43,7 @@ class Sounds {
           if (numberLoading === 0) {
             this._loadingOverlay.removeLoadingComponent(this);
 
-            this._eventBus.fire('gitter.sounds.loaded');
+            this._eventBus.fire('nodeSequencer.sounds.loaded');
           }
         });
 
@@ -54,7 +54,7 @@ class Sounds {
       });
     });
 
-    this.soundKit = Object.keys(this._gitterConfig.soundKits)[0];
+    this.soundKit = Object.keys(this._nodeSequencerConfig.soundKits)[0];
   }
 
   getSound(soundId) {
@@ -80,6 +80,6 @@ class Sounds {
   }
 }
 
-Sounds.$inject = [ 'eventBus', 'gitterConfig', 'loadingOverlay' ];
+Sounds.$inject = [ 'eventBus', 'nodeSequencerConfig', 'loadingOverlay' ];
 
 export default Sounds;

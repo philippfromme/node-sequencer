@@ -1,6 +1,6 @@
-import GitterPalette from './GitterPalette';
+import NodeSequencerPalette from './NodeSequencerPalette';
 
 export default {
-  __init__: [ 'gitterPalette' ],
-  gitterPalette: [ 'type', GitterPalette ]
+  __init__: [ 'nodeSequencerPalette' ],
+  nodeSequencerPalette: [ 'type', NodeSequencerPalette ]
 };

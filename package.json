@@ -1,10 +1,10 @@
 {
-  "name": "gitter",
+  "name": "node-sequencer",
   "version": "1.0.0",
   "description": "A Node-Based Sequencer for the Web",
   "repository": {
     "type": "git",
-    "url": "https://github.com/philippfromme/gitter"
+    "url": "https://github.com/philippfromme/node-sequencer"
   },
   "author": {
     "name": "Philipp Fromme",

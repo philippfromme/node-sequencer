@@ -8,7 +8,7 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import { isEmitter, isListener, isConnection } from '../util/GitterUtil';
+import { isEmitter, isListener, isConnection } from '../util/NodeSequencerUtil';
 
 function getLabel(soundId) {
   switch (soundId) {
@@ -28,10 +28,10 @@ function getLabel(soundId) {
 }
 
 class CustomRenderer extends BaseRenderer {
-  constructor(eventBus, canvas, gitterConfig) {
+  constructor(eventBus, canvas, nodeSequencerConfig) {
     super(eventBus, 2000);
 
-    this._gitterConfig = gitterConfig;
+    this._nodeSequencerConfig = nodeSequencerConfig;
 
     this.drawEmitter = (p, element, color) => {
       const { width, height, timeSignature } = element;
@@ -149,7 +149,7 @@ class CustomRenderer extends BaseRenderer {
     this.drawConnection = (p, element) => {
       const attrs = {
         strokeWidth: 1,
-        stroke: gitterConfig.emitterColor
+        stroke: nodeSequencerConfig.emitterColor
       };
 
       return svgAppend(p, createLine(element.waypoints, attrs));
@@ -175,14 +175,14 @@ class CustomRenderer extends BaseRenderer {
   }
 
   canRender(element) {
-    return /^gitter\:/.test(element.type);
+    return /^nodeSequencer\:/.test(element.type);
   }
 
   drawShape(parent, element) {
     if (isEmitter(element)) {
-      return this.drawEmitter(parent, element, this._gitterConfig.emitterColor);
+      return this.drawEmitter(parent, element, this._nodeSequencerConfig.emitterColor);
     } else if (isListener(element)) {
-      return this.drawListener(parent, element, this._gitterConfig.emitterColor, this._gitterConfig.listenerColor);
+      return this.drawListener(parent, element, this._nodeSequencerConfig.emitterColor, this._nodeSequencerConfig.listenerColor);
     }
   }
 
@@ -199,6 +199,6 @@ class CustomRenderer extends BaseRenderer {
   }
 }
 
-CustomRenderer.$inject = [ 'eventBus', 'canvas', 'gitterConfig' ];
+CustomRenderer.$inject = [ 'eventBus', 'canvas', 'nodeSequencerConfig' ];
 
 export default CustomRenderer;

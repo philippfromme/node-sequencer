@@ -1,6 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-import { isEmitter, isListener } from '../../util/GitterUtil';
+import { isEmitter, isListener } from '../../util/NodeSequencerUtil';
 import { getDistance } from '../../util/GeometryUtil';
 
 function connected(source, target) {
@@ -22,7 +22,7 @@ function connected(source, target) {
 }
 
 class AutoConnect extends CommandInterceptor {
-  constructor(eventBus, elementRegistry, modeling, gitterRules) {
+  constructor(eventBus, elementRegistry, modeling, nodeSequencerRules) {
     super(eventBus);
 
     this.postExecuted('shape.create', context => {
@@ -35,8 +35,8 @@ class AutoConnect extends CommandInterceptor {
         });
 
         listeners.forEach(listener => {
-          if (gitterRules.canConnect(shape, listener)) {
-            modeling.connect(shape, listener, { type: 'gitter:Connection' });
+          if (nodeSequencerRules.canConnect(shape, listener)) {
+            modeling.connect(shape, listener, { type: 'nodeSequencer:Connection' });
           }
         });
       }
@@ -47,8 +47,8 @@ class AutoConnect extends CommandInterceptor {
         });
 
         emitters.forEach(emitter => {
-          if (gitterRules.canConnect(emitter, shape)) {
-            modeling.connect(emitter, shape, { type: 'gitter:Connection' });
+          if (nodeSequencerRules.canConnect(emitter, shape)) {
+            modeling.connect(emitter, shape, { type: 'nodeSequencer:Connection' });
           }
         });
       }
@@ -62,7 +62,7 @@ class AutoConnect extends CommandInterceptor {
           var remove = [];
 
           shape.outgoing.forEach(outgoing => {
-            if (!gitterRules.canConnect(shape, outgoing.target)) {
+            if (!nodeSequencerRules.canConnect(shape, outgoing.target)) {
               remove.push(outgoing);
             }
           });
@@ -75,9 +75,9 @@ class AutoConnect extends CommandInterceptor {
 
           listeners.forEach(listener => {
 
-            if (gitterRules.canConnect(shape, listener) &&
+            if (nodeSequencerRules.canConnect(shape, listener) &&
                 !connected(shape, listener)) {
-              modeling.connect(shape, listener, { type: 'gitter:Connection' });
+              modeling.connect(shape, listener, { type: 'nodeSequencer:Connection' });
             }
 
           });
@@ -85,7 +85,7 @@ class AutoConnect extends CommandInterceptor {
 
         if (isListener(shape)) {
           shape.incoming.forEach(incoming => {
-            if (!gitterRules.canConnect(shape, incoming.source)) {
+            if (!nodeSequencerRules.canConnect(shape, incoming.source)) {
               console.log('removing connection');
               modeling.removeConnection(incoming);
             }
@@ -96,9 +96,9 @@ class AutoConnect extends CommandInterceptor {
           });
 
           emitters.forEach(emitter => {
-            if (gitterRules.canConnect(emitter, shape) &&
+            if (nodeSequencerRules.canConnect(emitter, shape) &&
                 !connected(emitter, shape)) {
-              modeling.connect(emitter, shape, { type: 'gitter:Connection' });
+              modeling.connect(emitter, shape, { type: 'nodeSequencer:Connection' });
             }
           });
         }
@@ -107,6 +107,6 @@ class AutoConnect extends CommandInterceptor {
   }
 }
 
-AutoConnect.$inject = [ 'eventBus', 'elementRegistry', 'modeling', 'gitterRules' ];
+AutoConnect.$inject = [ 'eventBus', 'elementRegistry', 'modeling', 'nodeSequencerRules' ];
 
 export default AutoConnect;

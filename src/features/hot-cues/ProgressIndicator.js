@@ -16,7 +16,7 @@ class ProgressIndicator {
     this.timeLastLoopStart = 0;
     this._canvas = canvas;
 
-    eventBus.on('gitter.audio.loopStart', 4000, context => {
+    eventBus.on('nodeSequencer.audio.loopStart', 4000, context => {
       this.timeLastLoopStart = Date.now();
     });
 
@@ -27,8 +27,8 @@ class ProgressIndicator {
     this._init();
 
     eventBus.on([
-      'gitter.create.end',
-      'gitter.load.end'
+      'nodeSequencer.create.end',
+      'nodeSequencer.load.end'
     ], () => {
       this.updateAnimation();
     });

@@ -4,7 +4,7 @@ import {
   event as domEvent,
 } from 'min-dom';
 
-import { isEmitter, isListener } from '../../util/GitterUtil';
+import { isEmitter, isListener } from '../../util/NodeSequencerUtil';
 
 function calculateStep(numberOfEntries) {
   return 2 * Math.PI / numberOfEntries;
@@ -28,9 +28,9 @@ function getLabel(soundId) {
 }
 
 class RadialMenu {
-  constructor(commandStack, gitterConfig, eventBus, modeling, overlays, sounds) {
+  constructor(commandStack, nodeSequencerConfig, eventBus, modeling, overlays, sounds) {
     this._commandStack = commandStack;
-    this._gitterConfig = gitterConfig;
+    this._nodeSequencerConfig = nodeSequencerConfig;
     this._eventBus = eventBus;
     this._modeling = modeling;
     this._overlays = overlays;
@@ -80,8 +80,8 @@ class RadialMenu {
     // why is -1.5 necessary?
     this.overlay = this._overlays.add(element, 'menu', {
       position: {
-        top: this._gitterConfig.shapeSize / 2 - 1.5,
-        left: this._gitterConfig.shapeSize / 2 - 1.5
+        top: this._nodeSequencerConfig.shapeSize / 2 - 1.5,
+        left: this._nodeSequencerConfig.shapeSize / 2 - 1.5
       },
       html
     });
@@ -98,10 +98,10 @@ class RadialMenu {
           this._modeling.removeElements([ this.element ]);
         },
         addClasses: [ 'entry-remove' ],
-        icon: this._gitterConfig.icons.remove
+        icon: this._nodeSequencerConfig.icons.remove
       }];
 
-      this._gitterConfig.timeSignatures.forEach(timeSignature => {
+      this._nodeSequencerConfig.timeSignatures.forEach(timeSignature => {
         const addClasses = [ `entry-${timeSignature.id}` ];
 
         if (this.element.timeSignature === timeSignature.id) {
@@ -114,7 +114,7 @@ class RadialMenu {
               return;
             }
 
-            this._commandStack.execute('gitter.changeProperties', {
+            this._commandStack.execute('nodeSequencer.changeProperties', {
               element: this.element,
               properties: {
                 timeSignature: timeSignature.id
@@ -143,12 +143,12 @@ class RadialMenu {
           this._modeling.removeElements([ this.element ]);
         },
         addClasses: [ 'entry-remove', ],
-        icon: this._gitterConfig.icons.remove
+        icon: this._nodeSequencerConfig.icons.remove
       }];
 
       const soundKit = this._sounds.soundKit;
 
-      this._gitterConfig.soundKits[soundKit].sounds.forEach(sound => {
+      this._nodeSequencerConfig.soundKits[soundKit].sounds.forEach(sound => {
         const addClasses = [ `entry-${sound.id}` ];
 
         if (this.element.sound === sound.id) {
@@ -161,7 +161,7 @@ class RadialMenu {
               return;
             }
 
-            this._commandStack.execute('gitter.changeProperties', {
+            this._commandStack.execute('nodeSequencer.changeProperties', {
               element: this.element,
               properties: {
                 sound: sound.id
@@ -188,7 +188,7 @@ class RadialMenu {
   }
 
   getEntries(entryDescriptors) {
-    const { shapeSize } = this._gitterConfig;
+    const { shapeSize } = this._nodeSequencerConfig;
 
     const entries = [];
 
@@ -248,7 +248,7 @@ class RadialMenu {
 
 RadialMenu.$inject = [
   'commandStack',
-  'gitterConfig',
+  'nodeSequencerConfig',
   'eventBus',
   'modeling',
   'overlays',

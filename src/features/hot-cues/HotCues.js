@@ -6,16 +6,16 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import { isEmitter, isListener } from '../../util/GitterUtil';
+import { isEmitter, isListener } from '../../util/NodeSequencerUtil';
 
 import ProgressIndicator from './ProgressIndicator';
 
 class HotCues {
-  constructor(eventBus, canvas, gitterConfig, commandStack, gitter, exportConfig) {
+  constructor(eventBus, canvas, nodeSequencerConfig, commandStack, nodeSequencer, exportConfig) {
     this._eventBus = eventBus;
     this._canvas = canvas;
     this._commandStack = commandStack;
-    this._gitter = gitter;
+    this._nodeSequencer = nodeSequencer;
 
     this._progressIndicator = new ProgressIndicator(eventBus, canvas);
 
@@ -49,7 +49,7 @@ class HotCues {
       this.setDirty();
     });
 
-    eventBus.on('gitter.audio.loopStart', 2000, context => {
+    eventBus.on('nodeSequencer.audio.loopStart', 2000, context => {
 
       if (this._nextJump) {
         this._actualJumpTo(this._nextJump);
@@ -139,7 +139,7 @@ class HotCues {
   }
 
   saveSlot(slotId) {
-    this._slots[slotId] = this._gitter._save();
+    this._slots[slotId] = this._nodeSequencer._save();
 
     let slotEl = this._getSlotEl(slotId);
 
@@ -163,7 +163,7 @@ class HotCues {
 
     let slot = this._slots[slotId];
 
-    this._gitter._load(slot);
+    this._nodeSequencer._load(slot);
 
     this._setActive(slotId);
   }
@@ -223,9 +223,9 @@ class HotCues {
 HotCues.$inject = [
   'eventBus',
   'canvas',
-  'gitterConfig',
+  'nodeSequencerConfig',
   'commandStack',
-  'gitter',
+  'nodeSequencer',
   'exportConfig'
 ];
 

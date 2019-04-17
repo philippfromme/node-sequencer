@@ -6,11 +6,11 @@ import {
   remove as svgRemove
 } from 'tiny-svg';
 
-import { isEmitter } from '../../util/GitterUtil';
+import { isEmitter } from '../../util/NodeSequencerUtil';
 
 class EmitterAnimation {
-  constructor(eventBus, canvas, gitterConfig, elementRegistry) {
-    const emitterAnimationLayer = canvas.getLayer('gitterEmitterAnimation', -900);
+  constructor(eventBus, canvas, nodeSequencerConfig, elementRegistry) {
+    const emitterAnimationLayer = canvas.getLayer('nodeSequencerEmitterAnimation', -900);
 
     this.circles = [];
 
@@ -18,11 +18,11 @@ class EmitterAnimation {
 
     let soundsLoaded = false;
 
-    eventBus.on('gitter.sounds.loaded', () => {
+    eventBus.on('nodeSequencer.sounds.loaded', () => {
       soundsLoaded = true;
     });
 
-    eventBus.on('gitter.audio.loopStart', () => {
+    eventBus.on('nodeSequencer.audio.loopStart', () => {
       if (!soundsLoaded) {
         return;
       }
@@ -44,7 +44,7 @@ class EmitterAnimation {
 
         svgAttr(circle, {
           stroke: 'none',
-          fill: gitterConfig.emitterColor
+          fill: nodeSequencerConfig.emitterColor
         });
 
         svgAppend(emitterAnimationLayer, circle);
@@ -97,6 +97,6 @@ class EmitterAnimation {
   }
 }
 
-EmitterAnimation.$inject = [ 'eventBus', 'canvas', 'gitterConfig', 'elementRegistry' ];
+EmitterAnimation.$inject = [ 'eventBus', 'canvas', 'nodeSequencerConfig', 'elementRegistry' ];
 
 export default EmitterAnimation;

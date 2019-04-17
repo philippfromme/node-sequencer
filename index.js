@@ -1,3 +1,3 @@
-import Gitter from './src/Gitter';
+import NodeSequencer from './src/NodeSequencer';
 
-export default Gitter;
+export default NodeSequencer;

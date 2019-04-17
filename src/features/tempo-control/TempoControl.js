@@ -5,32 +5,32 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import { isRoot } from '../../util/GitterUtil';
+import { isRoot } from '../../util/NodeSequencerUtil';
 
 class TempoControl {
-  constructor(canvas, eventBus, gitterConfig, gitterModeling) {
+  constructor(canvas, eventBus, nodeSequencerConfig, nodeSequencerModeling) {
     this._canvas = canvas;
     this._eventBus = eventBus;
-    this._gitterConfig = gitterConfig;
-    this._gitterModeling = gitterModeling;
+    this._nodeSequencerConfig = nodeSequencerConfig;
+    this._nodeSequencerModeling = nodeSequencerModeling;
 
     this.rootElement = undefined;
     this.oldTempo = undefined;
 
     this.init();
 
-    eventBus.on([ 'gitter.create.start', 'gitter.load.start' ], () => {
+    eventBus.on([ 'nodeSequencer.create.start', 'nodeSequencer.load.start' ], () => {
       this.unbindListeners();
     });
 
-    eventBus.on([ 'gitter.create.end', 'gitter.load.end' ], () => {
-      this.rangeInput.value = gitterConfig.initialTempo;
-      this.value.textContent = gitterConfig.initialTempo;
+    eventBus.on([ 'nodeSequencer.create.end', 'nodeSequencer.load.end' ], () => {
+      this.rangeInput.value = nodeSequencerConfig.initialTempo;
+      this.value.textContent = nodeSequencerConfig.initialTempo;
 
       this.bindListeners();
     });
 
-    eventBus.on([ 'commandStack.gitter.changeProperties.executed', 'commandStack.gitter.changeProperties.reverted' ], ({ context }) => {
+    eventBus.on([ 'commandStack.nodeSequencer.changeProperties.executed', 'commandStack.nodeSequencer.changeProperties.reverted' ], ({ context }) => {
       const { element } = context;
 
       if (isRoot(element)) {
@@ -41,7 +41,7 @@ class TempoControl {
   }
 
   init() {
-    const { minTempo, maxTempo, initialTempo } = this._gitterConfig;
+    const { minTempo, maxTempo, initialTempo } = this._nodeSequencerConfig;
 
     const container = domify(`
       <div class="tempo-control">
@@ -82,7 +82,7 @@ class TempoControl {
 
       this.rootElement.tempo = this.rangeInput.value;
 
-      this._eventBus.fire('gitter.tempoControl.input', {
+      this._eventBus.fire('nodeSequencer.tempoControl.input', {
         tempo: this.rangeInput.value
       });
 
@@ -96,7 +96,7 @@ class TempoControl {
       // reset to old tempo for correct undo/redo
       this.rootElement.tempo = this.oldTempo;
 
-      this._gitterModeling.changeProperties(this.rootElement, {
+      this._nodeSequencerModeling.changeProperties(this.rootElement, {
         tempo: this.rangeInput.value
       });
 
@@ -105,6 +105,6 @@ class TempoControl {
   }
 }
 
-TempoControl.$inject = [ 'canvas', 'eventBus', 'gitterConfig', 'gitterModeling' ];
+TempoControl.$inject = [ 'canvas', 'eventBus', 'nodeSequencerConfig', 'nodeSequencerModeling' ];
 
 export default TempoControl;

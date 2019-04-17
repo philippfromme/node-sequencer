@@ -3,9 +3,9 @@ import OrderingProvider from 'diagram-js/lib/features/ordering/OrderingProvider'
 import { find } from 'lodash-es';
 import { findIndex } from 'lodash-es';
 
-import { isConnection } from '../../util/GitterUtil';
+import { isConnection } from '../../util/NodeSequencerUtil';
 
-class GitterOrderingProvider extends OrderingProvider {
+class NodeSequencerOrderingProvider extends OrderingProvider {
   constructor(eventBus) {
     super(eventBus);
 
@@ -26,6 +26,6 @@ class GitterOrderingProvider extends OrderingProvider {
   }
 }
 
-GitterOrderingProvider.$inject = [ 'eventBus' ];
+NodeSequencerOrderingProvider.$inject = [ 'eventBus' ];
 
-export default GitterOrderingProvider;
+export default NodeSequencerOrderingProvider;

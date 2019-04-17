@@ -13,23 +13,23 @@ import { translate } from 'diagram-js/lib/util/SvgTransformUtil';
 
 import { createLine, updateLine } from 'diagram-js/lib/util/RenderUtil';
 
-import { isConnection, isRoot } from '../../util/GitterUtil';
+import { isConnection, isRoot } from '../../util/NodeSequencerUtil';
 
 import { getMid } from '../../util/GeometryUtil';
 
 const LOW_PRIORITY = 500;
 
 // TODO: fix buggy implementation
-class GitterMovePreview {
+class NodeSequencerMovePreview {
   constructor(
     eventBus,
     canvas,
     previewSupport,
     elementRegistry,
-    gitterRules,
-    gitterConnectionCropping
+    nodeSequencerRules,
+    nodeSequencerConnectionCropping
   ) {
-    this._gitterConnectionCropping = gitterConnectionCropping;
+    this._nodeSequencerConnectionCropping = nodeSequencerConnectionCropping;
 
     this.connectionPreviews = [];
 
@@ -39,7 +39,7 @@ class GitterMovePreview {
       if (!context.dragGroup) {
         const dragGroup = svgCreate('g');
 
-        domClasses(dragGroup).add('gitter-move-group');
+        domClasses(dragGroup).add('nodeSequencer-move-group');
 
         svgAppend(movePreviewLayer, dragGroup);
 
@@ -79,7 +79,7 @@ class GitterMovePreview {
       //     };
 
       //     // check for possible connections
-      //     if (gitterRules.canConnect(movedShape, nonMovingShape)
+      //     if (nodeSequencerRules.canConnect(movedShape, nonMovingShape)
       //         && !this.hasPreview(movedShape, nonMovingShape)) {
       //       this.addConnectionPreview(movedShape, nonMovingShape);
       //     }
@@ -98,7 +98,7 @@ class GitterMovePreview {
       //     height: movingShape.height
       //   };
 
-      //   if (!gitterRules.canConnect(movingShapeWithDelta, nonMovingShape)) {
+      //   if (!nodeSequencerRules.canConnect(movingShapeWithDelta, nonMovingShape)) {
 
       //     // remove
       //     this.removeConnectionPreview(connectionPreview);
@@ -122,7 +122,7 @@ class GitterMovePreview {
           nonMovingShapeMid = getMid(nonMovingShape);
 
     const croppedWaypoints =
-      this._gitterConnectionCropping.getCroppedWaypoints(movingShapeMid, nonMovingShapeMid);
+      this._nodeSequencerConnectionCropping.getCroppedWaypoints(movingShapeMid, nonMovingShapeMid);
 
     const attrs = {
       stroke: 'red'
@@ -149,7 +149,7 @@ class GitterMovePreview {
     movingShapeMid.y += dy;
 
     const croppedWaypoints =
-      this._gitterConnectionCropping.getCroppedWaypoints(movingShapeMid, nonMovingShapeMid);
+      this._nodeSequencerConnectionCropping.getCroppedWaypoints(movingShapeMid, nonMovingShapeMid);
 
     updateLine(gfx, croppedWaypoints);
   }
@@ -178,13 +178,13 @@ class GitterMovePreview {
   }
 }
 
-GitterMovePreview.$inject = [
+NodeSequencerMovePreview.$inject = [
   'eventBus',
   'canvas',
   'previewSupport',
   'elementRegistry',
-  'gitterRules',
-  'gitterConnectionCropping'
+  'nodeSequencerRules',
+  'nodeSequencerConnectionCropping'
 ];
 
-export default GitterMovePreview;
+export default NodeSequencerMovePreview;

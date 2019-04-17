@@ -1,6 +1,6 @@
-import GitterRules from './GitterRules';
+import NodeSequencerRules from './NodeSequencerRules';
 
 export default {
-  __init__: [ 'gitterRules' ],
-  gitterRules: [ 'type', GitterRules ]
+  __init__: [ 'nodeSequencerRules' ],
+  nodeSequencerRules: [ 'type', NodeSequencerRules ]
 };

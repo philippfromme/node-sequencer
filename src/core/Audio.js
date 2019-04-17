@@ -7,7 +7,7 @@ import AddSequenceHandler from './cmd/AddSequenceHandler';
 import RemoveSequenceHandler from './cmd/RemoveSequenceHandler';
 import UpdateSequenceHandler from './cmd/UpdateSequenceHandler';
 
-import { isRoot, isEmitter, isListener } from '../util/GitterUtil';
+import { isRoot, isEmitter, isListener } from '../util/NodeSequencerUtil';
 
 class Audio extends CommandInterceptor {
   constructor(commandStack, elementRegistry, eventBus, sounds) {
@@ -19,9 +19,9 @@ class Audio extends CommandInterceptor {
     this._elementRegistry = elementRegistry;
     this._sounds = sounds;
 
-    commandStack.registerHandler('gitter.audio.addSequence', AddSequenceHandler);
-    commandStack.registerHandler('gitter.audio.removeSequence', RemoveSequenceHandler);
-    commandStack.registerHandler('gitter.audio.updateSequence', UpdateSequenceHandler);
+    commandStack.registerHandler('nodeSequencer.audio.addSequence', AddSequenceHandler);
+    commandStack.registerHandler('nodeSequencer.audio.removeSequence', RemoveSequenceHandler);
+    commandStack.registerHandler('nodeSequencer.audio.updateSequence', UpdateSequenceHandler);
 
     this.phrases = {};
 
@@ -30,7 +30,7 @@ class Audio extends CommandInterceptor {
     // this.mainPart.start();
 
     const phrase = new p5.Phrase('loopStart', (time, playbackRate) => {
-      eventBus.fire('gitter.audio.loopStart');
+      eventBus.fire('nodeSequencer.audio.loopStart');
     }, [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]);
 
     this.mainPart.addPhrase(phrase);
@@ -40,7 +40,7 @@ class Audio extends CommandInterceptor {
     const reverb = new p5.Reverb();
     const delay = new p5.Delay();
 
-    eventBus.on('gitter.sounds.loaded', () => {
+    eventBus.on('nodeSequencer.sounds.loaded', () => {
       const allSounds = sounds.getSounds();
 
       Object.values(allSounds).forEach(soundKit => {
@@ -63,7 +63,7 @@ class Audio extends CommandInterceptor {
     });
 
     // enable changing tempo during input
-    eventBus.on('gitter.tempoControl.input', ({ tempo }) => {
+    eventBus.on('nodeSequencer.tempoControl.input', ({ tempo }) => {
       this.mainPart.setBPM(tempo);
     });
   }
@@ -72,12 +72,12 @@ class Audio extends CommandInterceptor {
     const { sound } = this._sounds.getSound(listener.sound);
 
     const onPlay = () => {
-      this._eventBus.fire('gitter.audio.playSound', {
+      this._eventBus.fire('nodeSequencer.audio.playSound', {
         listener
       });
     };
 
-    this._commandStack.execute('gitter.audio.addSequence', {
+    this._commandStack.execute('nodeSequencer.audio.addSequence', {
       sequence,
       emitter,
       listener,
@@ -89,7 +89,7 @@ class Audio extends CommandInterceptor {
   }
 
   removeSequence(emitter, listener) {
-    this._commandStack.execute('gitter.audio.removeSequence', {
+    this._commandStack.execute('nodeSequencer.audio.removeSequence', {
       emitter,
       listener,
       phrases: this.phrases,
@@ -98,7 +98,7 @@ class Audio extends CommandInterceptor {
   }
 
   updateSequence(sequence, emitter, listener) {
-    this._commandStack.execute('gitter.audio.updateSequence', {
+    this._commandStack.execute('nodeSequencer.audio.updateSequence', {
       sequence,
       emitter,
       listener,

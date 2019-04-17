@@ -1,8 +1,8 @@
 import Cropping from './Cropping';
-import GitterConnectionCropping from './GitterConnectionCropping';
+import NodeSequencerConnectionCropping from './NodeSequencerConnectionCropping';
 
 export default {
-  __init__: [ 'cropping', 'gitterConnectionCropping' ],
+  __init__: [ 'cropping', 'nodeSequencerConnectionCropping' ],
   cropping: [ 'type', Cropping ],
-  gitterConnectionCropping: [ 'type', GitterConnectionCropping ]
+  nodeSequencerConnectionCropping: [ 'type', NodeSequencerConnectionCropping ]
 };

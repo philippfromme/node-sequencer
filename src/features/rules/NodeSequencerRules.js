@@ -1,15 +1,15 @@
 import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
 
-import { isEmitter, isListener, isConnection } from '../../util/GitterUtil';
+import { isEmitter, isListener, isConnection } from '../../util/NodeSequencerUtil';
 import { getDistance } from '../../util/GeometryUtil';
 
 const HIGH_PRIORITY = 1500;
 
-class GitterRules extends RuleProvider {
-  constructor(eventBus, gitterConfig) {
+class NodeSequencerRules extends RuleProvider {
+  constructor(eventBus, nodeSequencerConfig) {
     super(eventBus);
 
-    this._gitterConfig = gitterConfig;
+    this._nodeSequencerConfig = nodeSequencerConfig;
 
     const canCreate = target => {
       if (!target) {
@@ -53,10 +53,10 @@ class GitterRules extends RuleProvider {
 
   canConnect(source, target) {
     return source.type !== target.type &&
-      getDistance(source, target) < this._gitterConfig.maxDistance;
+      getDistance(source, target) < this._nodeSequencerConfig.maxDistance;
   }
 }
 
-GitterRules.$inject = [ 'eventBus', 'gitterConfig' ];
+NodeSequencerRules.$inject = [ 'eventBus', 'nodeSequencerConfig' ];
 
-export default GitterRules;
+export default NodeSequencerRules;

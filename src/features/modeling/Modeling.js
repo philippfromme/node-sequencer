@@ -4,11 +4,11 @@ class Modeling {
   constructor(commandStack) {
     this._commandStack = commandStack;
 
-    commandStack.registerHandler('gitter.changeProperties', ChangePropertiesHandler);
+    commandStack.registerHandler('nodeSequencer.changeProperties', ChangePropertiesHandler);
   }
 
   changeProperties(element, properties) {
-    this._commandStack.execute('gitter.changeProperties', {
+    this._commandStack.execute('nodeSequencer.changeProperties', {
       element,
       properties
     });

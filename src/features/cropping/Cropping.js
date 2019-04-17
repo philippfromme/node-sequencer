@@ -1,7 +1,7 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 class Cropping extends CommandInterceptor {
-  constructor(eventBus, gitterConnectionCropping) {
+  constructor(eventBus, nodeSequencerConnectionCropping) {
     super(eventBus);
 
     function cropConnection(event) {
@@ -9,7 +9,7 @@ class Cropping extends CommandInterceptor {
 
       if (!context.cropped) {
         const connection = context.connection;
-        connection.waypoints = gitterConnectionCropping.getCroppedWaypointsFromConnection(connection);
+        connection.waypoints = nodeSequencerConnectionCropping.getCroppedWaypointsFromConnection(connection);
         context.cropped = true;
       }
     }
@@ -23,7 +23,7 @@ class Cropping extends CommandInterceptor {
   }
 }
 
-Cropping.$inject = [ 'eventBus', 'gitterConnectionCropping' ];
+Cropping.$inject = [ 'eventBus', 'nodeSequencerConnectionCropping' ];
 
 // export default doesn't work
 export default Cropping;

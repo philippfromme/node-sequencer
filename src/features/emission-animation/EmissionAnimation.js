@@ -10,7 +10,7 @@ import {
 
 import { rotate, translate } from 'diagram-js/lib/util/SvgTransformUtil';
 
-import { isConnection } from '../../util/GitterUtil';
+import { isConnection } from '../../util/NodeSequencerUtil';
 
 import { getStepIndex } from '../../util/SequenceUtil';
 
@@ -26,19 +26,19 @@ const IMPULSE_RECT_HEIGHT = 4;
 const round = Math.round;
 
 class EmissionAnimation {
-  constructor(eventBus, canvas, gitterConfig, elementRegistry) {
+  constructor(eventBus, canvas, nodeSequencerConfig, elementRegistry) {
     this._canvas = canvas;
-    this._gitterConfig = gitterConfig;
+    this._nodeSequencerConfig = nodeSequencerConfig;
 
     this.audioContext = p5.prototype.getAudioContext();
 
-    this.emissionAnimationLayer = canvas.getLayer('gitterEmissionAnimation', -700);
+    this.emissionAnimationLayer = canvas.getLayer('nodeSequencerEmissionAnimation', -700);
 
     this.impulses = [];
 
     this.timeLastLoopStart = 0;
 
-    eventBus.on('gitter.audio.loopStart', context => {
+    eventBus.on('nodeSequencer.audio.loopStart', context => {
       this.timeLastLoopStart = Date.now();
 
       svgClear(this.emissionAnimationLayer);
@@ -99,7 +99,7 @@ class EmissionAnimation {
   createEmitterAnimation({ source, target }) {
     const { tempo } = this._canvas.getRootElement();
 
-    const { maxDistance, offsetDistance } = this._gitterConfig;
+    const { maxDistance, offsetDistance } = this._nodeSequencerConfig;
 
     const quarterNoteDuration = MILLIS_PER_MINUTE / tempo,
           sixteenthNoteDuration = quarterNoteDuration / 4;
@@ -135,7 +135,7 @@ class EmissionAnimation {
       y: - round(IMPULSE_RECT_HEIGHT / 2),
       width: IMPULSE_RECT_WIDTH,
       height: IMPULSE_RECT_HEIGHT,
-      fill: this._gitterConfig.emitterColor
+      fill: this._nodeSequencerConfig.emitterColor
     });
 
     const rotation =
@@ -210,6 +210,6 @@ class EmissionAnimation {
   }
 }
 
-EmissionAnimation.$inject = [ 'eventBus', 'canvas', 'gitterConfig', 'elementRegistry' ];
+EmissionAnimation.$inject = [ 'eventBus', 'canvas', 'nodeSequencerConfig', 'elementRegistry' ];
 
 export default EmissionAnimation;

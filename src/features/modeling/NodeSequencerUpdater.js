@@ -1,6 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
-import { isRoot, isEmitter, isListener } from '../../util/GitterUtil';
+import { isRoot, isEmitter, isListener } from '../../util/NodeSequencerUtil';
 import { getSequence } from '../../util/SequenceUtil';
 import { getDistance } from '../../util/GeometryUtil';
 
@@ -29,13 +29,13 @@ function connected(source, target) {
  * Changes are always applied immediately, i.e. during
  * <executed> and <reverted> phases.
  */
-class GitterUpdater extends CommandInterceptor {
+class NodeSequencerUpdater extends CommandInterceptor {
 
-  constructor(eventBus, audio, sounds, elementRegistry, gitterConfig) {
+  constructor(eventBus, audio, sounds, elementRegistry, nodeSequencerConfig) {
 
     super(eventBus);
 
-    const { maxDistance, offsetDistance } = gitterConfig;
+    const { maxDistance, offsetDistance } = nodeSequencerConfig;
 
     const mainPart = audio.getMainPart();
 
@@ -48,7 +48,7 @@ class GitterUpdater extends CommandInterceptor {
       }
 
       const onPlay = function() {
-        eventBus.fire('gitter.audio.playSound', {
+        eventBus.fire('nodeSequencer.audio.playSound', {
           listener
         });
       };
@@ -102,7 +102,7 @@ class GitterUpdater extends CommandInterceptor {
       }
     }
 
-    this.postExecute('gitter.changeProperties', ({ context }) => {
+    this.postExecute('nodeSequencer.changeProperties', ({ context }) => {
 
       const { element, properties } = context;
 
@@ -122,14 +122,14 @@ class GitterUpdater extends CommandInterceptor {
       }
     });
 
-    this.executed('gitter.changeProperties', ({ context }) => {
+    this.executed('nodeSequencer.changeProperties', ({ context }) => {
 
       const { element, properties } = context;
 
       updateSounds(element, properties);
     });
 
-    this.reverted('gitter.changeProperties', ({ context }) => {
+    this.reverted('nodeSequencer.changeProperties', ({ context }) => {
 
       const { element, oldProperties } = context;
 
@@ -139,12 +139,12 @@ class GitterUpdater extends CommandInterceptor {
   }
 }
 
-GitterUpdater.$inject = [
+NodeSequencerUpdater.$inject = [
   'eventBus',
   'audio',
   'sounds',
   'elementRegistry',
-  'gitterConfig'
+  'nodeSequencerConfig'
 ];
 
-export default GitterUpdater;
+export default NodeSequencerUpdater;

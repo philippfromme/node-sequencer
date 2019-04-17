@@ -1,20 +1,20 @@
 import Diagram from 'diagram-js';
 
-// gitter modules
+// nodeSequencer modules
 import autoConnect from './features/auto-connect';
-import gitterConfig from './config';
+import nodeSequencerConfig from './config';
 import coreModule from './core';
 import cropping from './features/cropping';
 import emissionAnimation from './features/emission-animation';
 import emitterAnimation from './features/emitter-animation';
-import gitterEmitterPreview from './features/emitter-preview';
-import gitterMovePreview from './features/move-preview';
-import gitterPalette from './features/palette';
-import gitterRules from './features/rules';
+import nodeSequencerEmitterPreview from './features/emitter-preview';
+import nodeSequencerMovePreview from './features/move-preview';
+import nodeSequencerPalette from './features/palette';
+import nodeSequencerRules from './features/rules';
 import keyboardBindings from './features/keyboard-bindings';
 import kitSelect from './features/kit-select';
 import listenerAnimation from './features/listener-animation';
-import gitterModeling from './features/modeling';
+import nodeSequencerModeling from './features/modeling';
 import ordering from './features/ordering';
 import overridden from './features/overridden'; // overridden diagram-js features
 import radialMenu from './features/radial-menu';
@@ -45,15 +45,15 @@ import zoomScroll from 'diagram-js/lib/navigation/zoomscroll';
 
 import ConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking';
 
-import { isRoot, isEmitter, isListener } from './util/GitterUtil';
+import { isRoot, isEmitter, isListener } from './util/NodeSequencerUtil';
 import keyboard from 'diagram-js/lib/features/keyboard';
 
-function Gitter(options) {
+function NodeSequencer(options) {
 
   const diagramModules = [
     {
-      gitter: [ 'value', this ],
-      gitterConfig: [ 'value', gitterConfig ],
+      nodeSequencer: [ 'value', this ],
+      nodeSequencerConfig: [ 'value', nodeSequencerConfig ],
       connectionDocking: [ 'type', ConnectionDocking ]
     },
     autoScroll,
@@ -80,21 +80,21 @@ function Gitter(options) {
     }
   ];
 
-  const gitterModules = [
+  const nodeSequencerModules = [
     autoConnect,
     coreModule,
     cropping,
     emissionAnimation,
     emitterAnimation,
-    gitterEmitterPreview,
-    gitterMovePreview,
-    gitterPalette,
-    gitterRules,
+    nodeSequencerEmitterPreview,
+    nodeSequencerMovePreview,
+    nodeSequencerPalette,
+    nodeSequencerRules,
     hotCues,
     keyboardBindings,
     kitSelect,
     listenerAnimation,
-    gitterModeling,
+    nodeSequencerModeling,
     ordering,
     overridden,
     radialMenu,
@@ -110,62 +110,62 @@ function Gitter(options) {
     ...{
       modules: [
         ...diagramModules,
-        ...gitterModules,
+        ...nodeSequencerModules,
         ...additionalModules
       ]
     }
   });
 };
 
-Gitter.prototype = Object.create(Diagram.prototype, {
+NodeSequencer.prototype = Object.create(Diagram.prototype, {
   constructor: {
-    value: Gitter,
+    value: NodeSequencer,
     enumerable: false,
     writable: true,
     configurable: true
   }
 });
 
-Gitter.prototype.create = function() {
+NodeSequencer.prototype.create = function() {
   const canvas = this.get('canvas');
   const eventBus = this.get('eventBus');
-  const gitterConfig = this.get('gitterConfig');
-  const gitterElementFactory = this.get('gitterElementFactory');
+  const nodeSequencerConfig = this.get('nodeSequencerConfig');
+  const nodeSequencerElementFactory = this.get('nodeSequencerElementFactory');
 
-  eventBus.fire('gitter.create.start');
+  eventBus.fire('nodeSequencer.create.start');
 
-  const rootShape = gitterElementFactory.createRoot();
+  const rootShape = nodeSequencerElementFactory.createRoot();
 
   canvas.setRootElement(rootShape);
 
   const x = Math.floor(canvas.getContainer().clientWidth / 3) - 15;
   const y = Math.floor(canvas.getContainer().clientHeight / 2) - 15;
 
-  const emitter = gitterElementFactory.createEmitter({
+  const emitter = nodeSequencerElementFactory.createEmitter({
     id: 'Emitter_1',
-    type: 'gitter:Emitter',
+    type: 'nodeSequencer:Emitter',
     x,
     y,
-    width: gitterConfig.shapeSize,
-    height: gitterConfig.shapeSize
+    width: nodeSequencerConfig.shapeSize,
+    height: nodeSequencerConfig.shapeSize
   });
 
   canvas.addShape(emitter, rootShape);
 
-  eventBus.fire('gitter.create.end');
+  eventBus.fire('nodeSequencer.create.end');
 };
 
 /**
  * Internal load. Loads all elements.
  */
-Gitter.prototype._load = function(elements) {
-  const gitterConfig = this.get('gitterConfig'),
+NodeSequencer.prototype._load = function(elements) {
+  const nodeSequencerConfig = this.get('nodeSequencerConfig'),
         canvas = this.get('canvas'),
         modeling = this.get('modeling'),
-        gitterElementFactory = this.get('gitterElementFactory'),
+        nodeSequencerElementFactory = this.get('nodeSequencerElementFactory'),
         sounds = this.get('sounds');
 
-  const { shapeSize } = gitterConfig;
+  const { shapeSize } = nodeSequencerConfig;
 
   this.clear();
 
@@ -178,7 +178,7 @@ Gitter.prototype._load = function(elements) {
 
   const { tempo, soundKit } = rootElement;
 
-  const rootShape = gitterElementFactory.createRoot({
+  const rootShape = nodeSequencerElementFactory.createRoot({
     tempo,
     soundKit
   });
@@ -194,7 +194,7 @@ Gitter.prototype._load = function(elements) {
     } else if (isEmitter(element)) {
       const { type, x, y, timeSignature } = element;
 
-      const emitterShape = gitterElementFactory.createEmitter({
+      const emitterShape = nodeSequencerElementFactory.createEmitter({
         type,
         timeSignature,
         width: shapeSize,
@@ -205,7 +205,7 @@ Gitter.prototype._load = function(elements) {
     } else if (isListener(element)) {
       const { type, x, y, sound } = element;
 
-      const listenerShape = gitterElementFactory.createEmitter({
+      const listenerShape = nodeSequencerElementFactory.createEmitter({
         type,
         sound,
         width: shapeSize,
@@ -221,11 +221,11 @@ Gitter.prototype._load = function(elements) {
 /**
  * Loads all elements and configurations.
  */
-Gitter.prototype.load = function(descriptors) {
+NodeSequencer.prototype.load = function(descriptors) {
   const eventBus = this.get('eventBus'),
         exportConfig = this.get('exportConfig');
 
-  eventBus.fire('gitter.load.start');
+  eventBus.fire('nodeSequencer.load.start');
 
   try {
     const { elements, exportedConfigs } = JSON.parse(descriptors);
@@ -234,7 +234,7 @@ Gitter.prototype.load = function(descriptors) {
 
     exportConfig.import(exportedConfigs);
 
-    eventBus.fire('gitter.load.end');
+    eventBus.fire('nodeSequencer.load.end');
   } catch(e) {
     throw new Error('could not load', e);
   }
@@ -243,7 +243,7 @@ Gitter.prototype.load = function(descriptors) {
 /**
  * Internal save. Saves all elements.
  */
-Gitter.prototype._save = function() {
+NodeSequencer.prototype._save = function() {
   const elementRegistry = this.get('elementRegistry');
 
   let elements = [];
@@ -288,7 +288,7 @@ Gitter.prototype._save = function() {
 /**
  * Saves all elements and additional configurations.
  */
-Gitter.prototype.save = function() {
+NodeSequencer.prototype.save = function() {
   const exportConfig = this.get('exportConfig');
 
   const exportedConfigs = exportConfig.export();
@@ -299,7 +299,7 @@ Gitter.prototype.save = function() {
   });
 };
 
-Gitter.prototype.saveMidi = function() {
+NodeSequencer.prototype.saveMidi = function() {
   const saveMidi = this.get('saveMidi');
 
   if (!saveMidi) {
@@ -309,4 +309,4 @@ Gitter.prototype.saveMidi = function() {
   saveMidi.saveMidi();
 };
 
-export default Gitter;
+export default NodeSequencer;

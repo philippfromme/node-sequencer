@@ -1,7 +1,7 @@
 import BaseElementFactory from 'diagram-js/lib/core/ElementFactory';
 
-class GitterElementFactory extends BaseElementFactory {
-  constructor(gitterConfig, sounds) {
+class NodeSequencerElementFactory extends BaseElementFactory {
+  constructor(nodeSequencerConfig, sounds) {
     super();
 
     this.baseCreate = BaseElementFactory.prototype.create;
@@ -12,28 +12,28 @@ class GitterElementFactory extends BaseElementFactory {
       root: attrs => {
         return this.baseCreate('root', Object.assign({
           id: 'root',
-          tempo: gitterConfig.initialTempo,
-          soundKit: gitterConfig.initialSoundKit
+          tempo: nodeSequencerConfig.initialTempo,
+          soundKit: nodeSequencerConfig.initialSoundKit
         }, attrs));
       },
 
       // emitter
       emitter: attrs => {
         return this.baseCreate('shape', Object.assign({
-          type: 'gitter:Emitter',
-          width: gitterConfig.shapeSize,
-          height: gitterConfig.shapeSize,
-          timeSignature: gitterConfig.initialTimeSignature
+          type: 'nodeSequencer:Emitter',
+          width: nodeSequencerConfig.shapeSize,
+          height: nodeSequencerConfig.shapeSize,
+          timeSignature: nodeSequencerConfig.initialTimeSignature
         }, attrs));
       },
 
       // listener
       listener: attrs => {
         return this.baseCreate('shape', Object.assign({
-          type: 'gitter:Listener',
-          width: gitterConfig.shapeSize,
-          height: gitterConfig.shapeSize,
-          sound: gitterConfig.initialSound
+          type: 'nodeSequencer:Listener',
+          width: nodeSequencerConfig.shapeSize,
+          height: nodeSequencerConfig.shapeSize,
+          sound: nodeSequencerConfig.initialSound
         }, attrs));
       }
     }
@@ -56,6 +56,6 @@ class GitterElementFactory extends BaseElementFactory {
   }
 }
 
-GitterElementFactory.$inject = [ 'gitterConfig', 'sounds' ];
+NodeSequencerElementFactory.$inject = [ 'nodeSequencerConfig', 'sounds' ];
 
-export default GitterElementFactory;
+export default NodeSequencerElementFactory;

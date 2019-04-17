@@ -7,14 +7,14 @@ import {
 } from 'tiny-svg';
 
 class ListenerAnimation {
-  constructor(eventBus, canvas, gitterConfig) {
-    const listenerAnimationLayer = canvas.getLayer('gitterListenerAnimation', -800);
+  constructor(eventBus, canvas, nodeSequencerConfig) {
+    const listenerAnimationLayer = canvas.getLayer('nodeSequencerListenerAnimation', -800);
 
     this.circles = [];
 
     this.updateAnimation();
 
-    eventBus.on('gitter.audio.playSound', ({ listener }) => {
+    eventBus.on('nodeSequencer.audio.playSound', ({ listener }) => {
       const { x, y, width } = listener;
 
       const circle = svgCreate('circle');
@@ -29,7 +29,7 @@ class ListenerAnimation {
 
       svgAttr(circle, {
         stroke: 'none',
-        fill: gitterConfig.emitterColor
+        fill: nodeSequencerConfig.emitterColor
       });
 
       svgAppend(listenerAnimationLayer, circle);
@@ -81,6 +81,6 @@ class ListenerAnimation {
   }
 }
 
-ListenerAnimation.$inject = [ 'eventBus', 'canvas', 'gitterConfig' ];
+ListenerAnimation.$inject = [ 'eventBus', 'canvas', 'nodeSequencerConfig' ];
 
 export default ListenerAnimation;
